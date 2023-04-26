@@ -34,7 +34,32 @@ func (s *SequentialList1) ListInsert(index, value int) (bool, error) {
 
 // ListDelete delete
 func (s *SequentialList1) ListDelete(index int) (bool, error) {
+	if index > len(s.SqList) || index < 1 {
+		return false, fmt.Errorf("index out of range")
+	}
+	for i := index - 1; i < len(s.SqList)-1; i++ {
+		s.SqList[i] = s.SqList[i+1]
+	}
+	s.length--
 	return true, nil
+}
+
+// GetElem return the element at index of the List
+func (s SequentialList1) GetElem(index int) (int, error) {
+	if index > len(s.SqList) || index < 1 {
+		return 0, fmt.Errorf("index out of range")
+	}
+	return s.SqList[index-1], nil
+}
+
+// LocateElem return the index
+func (s SequentialList1) LocateElem(value int) (int, error) {
+	for i := 0; i < len(s.SqList); i++ {
+		if s.SqList[i] == value {
+			return i, nil
+		}
+	}
+	return -1, nil
 }
 
 /*SequentialList2 dynamic*/
@@ -74,4 +99,31 @@ func (s *SequentialList2) ListInsert(index, value int) (bool, error) {
 	s.SqList[index-1] = value
 	s.length++
 	return true, nil
+}
+
+func (s *SequentialList2) ListDelete(index int) (bool, error) {
+	if index < 1 || index > s.maxSize {
+		return false, fmt.Errorf("index out of range")
+	}
+	for i := index - 1; i < len(s.SqList); i++ {
+		s.SqList[i] = s.SqList[i+1]
+	}
+	s.length--
+	return true, nil
+}
+
+func (s SequentialList2) GetElem(index int) (int, error) {
+	if index > len(s.SqList) || index < 1 {
+		return 0, fmt.Errorf("index out of range")
+	}
+	return s.SqList[index-1], nil
+}
+
+func (s SequentialList2) LocateElem(value int) (int, error) {
+	for i := 0; i < len(s.SqList); i++ {
+		if s.SqList[i] == value {
+			return i, nil
+		}
+	}
+	return -1, nil
 }
